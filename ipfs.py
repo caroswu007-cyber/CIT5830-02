@@ -25,7 +25,9 @@ def pin_to_ipfs(data):
             "pinata_secret_api_key": api_secret.strip(),
             "Content-Type": "application/json",
         }
-
+    print("AUTH_MODE=", "JWT" if use_jwt else "KEY_SECRET")
+    if not use_jwt:
+    print("KEY_PREFIX=", headers.get("pinata_api_key", "")[:6], headers.get("pinata_secret_api_key", "")[:6])
     r = requests.post(PIN_URL, headers=headers, json={"pinataContent": data}, timeout=30)
     r.raise_for_status()
     return r.json()["IpfsHash"]
